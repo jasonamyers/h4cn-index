@@ -1,0 +1,6 @@
+- Flask
+- Flask-SQLAlchemy
+- SQLAlchemy Core
+- Flask-WTF
+- Jinja2
+- Flask-Babel
