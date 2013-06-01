@@ -3,11 +3,11 @@ import calendar
 from flask.ext.login import UserMixin
 from app import db
 
-roles_user = db.Table('roles_users',
+roles_users = db.Table('roles_users',
     db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
 
-class Roles(db.model):
+class Roles(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
@@ -34,7 +34,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(1000))
     email = db.Column(db.String(255), unique=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
-    active = db.Column(db.Coolean(), default=True)
+    active = db.Column(db.Boolean(), default=True)
     timezone = db.Column(db.String(1000), default=None, nullable=True)
     roles = db.relationship('Roles', secondary=roles_users,
         primaryjoin=id == roles_users.c.user_id, backref='users')

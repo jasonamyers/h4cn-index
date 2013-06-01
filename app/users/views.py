@@ -6,10 +6,10 @@ from passlib.hash import pbkdf2_sha256
 from flask import (Blueprint, request, render_template, flash, g, session,
     redirect, url_for, json, jsonify, current_app)
 from flask.ext.login import (login_user, logout_user, current_user)
-from flask.ext.pricipal import Identity, AnonymousIdentity, identity_changed
+from flask.ext.principal import Identity, AnonymousIdentity, identity_changed
 
 from app import db
-from app.users.models import Users, Roles
+from app.users.models import User, Roles
 
 mod = Blueprint('users', __name__, url_prefix='/users')
 

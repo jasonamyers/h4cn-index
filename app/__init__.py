@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, current_user
-from flask.ext.pricipal import (Principal, Permission, identity_loaded, RoleNeed, UserNeed)
+from flask.ext.principal import (Principal, Permission, identity_loaded, RoleNeed, UserNeed)
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -14,7 +14,7 @@ principals = Principal(app)
 
 admin_permission = Permission(RoleNeed('admin'))
 
-from app.users.models import Users
+from app.users.models import User
 
 
 @login_manager.user_loader
@@ -27,11 +27,11 @@ def non_fount(error):
     return render_template('404.html'), 404
 
 
-@app.route('/', method=['GET', ])
+@app.route('/', methods=['GET', ])
 def handle_splash():
     return render_template('index.html')
 
-from flu.users.views import mod as usersModule
+from app.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
 
