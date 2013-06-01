@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from flask.ext.sqlalehcmy import SQLAlchemy
+from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, current_user
 from flask.ext.pricipal import (Principal, Permission, identity_loaded, RoleNeed, UserNeed)
 
