@@ -1,9 +1,6 @@
 # clear screen
 clear
 
-# start with a clear screen
-cd ~/src/GlucoseTrack
-
 # source the virtual environment
 source venv/bin/activate
 
