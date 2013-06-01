@@ -14,7 +14,7 @@ principals = Principal(app)
 
 admin_permission = Permission(RoleNeed('admin'))
 
-from app.users.models import User
+from app.users.models import Users
 
 
 @login_manager.user_loader

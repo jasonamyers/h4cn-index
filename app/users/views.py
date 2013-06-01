@@ -9,7 +9,7 @@ from flask.ext.login import (login_user, logout_user, current_user)
 from flask.ext.principal import Identity, AnonymousIdentity, identity_changed
 
 from app import db
-from app.users.models import User, Roles
+from app.users.models import Users, Roles
 
 mod = Blueprint('users', __name__, url_prefix='/users')
 

@@ -1,11 +1,11 @@
 import datetime
-import calendar
 from flask.ext.login import UserMixin
 from app import db
 
 roles_users = db.Table('roles_users',
-    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('user_id', db.Integer(), db.ForeignKey('users.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')))
+
 
 class Roles(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
@@ -25,7 +25,7 @@ class Roles(db.Model):
         return db.session.query(Roles).all()
 
 
-class User(db.Model, UserMixin):
+class Users(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
