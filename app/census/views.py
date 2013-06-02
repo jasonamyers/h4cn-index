@@ -26,7 +26,26 @@ def before_request():
 
 @mod.route('', methods=['GET', ])
 def census():
-    return render_template('census/index.html')
+    income_districts = []
+    poverty_districts = []
+    s = select(
+        [
+            g.t.c.district,
+        ], g.t.c.type == 'INCOME').distinct().order_by(
+                g.t.c.district)
+    districts = g.conn.execute(s).fetchall()
+    for district in districts:
+        income_districts.append(district)
+    s = select(
+        [
+            g.t.c.district,
+        ], g.t.c.type == 'POVERTY').distinct().order_by(
+                g.t.c.district)
+    districts = g.conn.execute(s).fetchall()
+    for district in districts:
+        poverty_districts.append(district)
+    
+    return render_template('census/index.html', income_districts=income_districts, poverty_districts=poverty_districts)
 
 
 @mod.route('/test', methods=['GET', ])
