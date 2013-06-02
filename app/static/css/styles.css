@@ -99,8 +99,13 @@ footer img {
   padding-bottom: 10px;
 } 
 
-footer hr {
-  color: black;
+div#nh4c img {
+  padding-top: 30px;
+  width: 600px;
+} 
+
+div#h4cn img {
+  height: 100px;
 } 
 
 @media screen and (max-width: 768px) {

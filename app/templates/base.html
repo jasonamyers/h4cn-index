@@ -89,33 +89,41 @@
       <div class="row">
         <div class="span12">
           <h3>
-            Brought to you by:
+            Site created by:
           </h3>  
         </div> 
       </div>       
           
       <div class="row">
-        <div class="span4">
+        <div class="span2">
+        </div>      
+        <div class="span4" id="nh4c"> 
           <a href="http://hackforchange.org" target="_blank">
-            <img src="img/NationalDayOfCivicHacking.png" width="300" height="94" alt="National Day of Civic Hacking" />
+            <img src="{{ url_for('static', filename='img/NationalDayOfCivicHacking.jpg') }}" alt="National Day of Civic Hacking" />
           </a>
-        </div> 
+        </div>          
         <div class="span4"> 
+        <div id="h4cn">
           <a href="http://hack4changenash.org" target="_blank">
-            <img src="img/nhfc_logo.png" width="300" height="94" alt="Nashville Human Relations Commission" />
-          </a>
-        </div> 
-        <div class="span4"> 
-          <a href="http://www.nashville.gov" target="_blank">
-            <img src="img/logo-home-print.png" width="300" height="94" alt="Nashville Human Relations Commission" />
+            <img src="{{ url_for('static', filename='img/NashvilleHackForChange.jpg') }}" alt="Nashville Hack For Change" />
           </a>
         </div>
+        </div>
+        <div class="span2">
+        </div>    
       </div>
-      
+
       <div class="row">
-        <div class="span12"> 
+        <div class="span12">
+          <h3>
+            Brought to you by:
+          </h3>  
+        </div> 
+      </div>       
+      <div class="row">
+        <div class="span12" id="MHRClogo"> 
           <a href="http://www.nashville.gov/Human-Relations-Commission.aspx" target="_blank">
-            <img src="img/MHRCLogFinal.jpg" width="300" height="94" alt="Nashville Human Relations Commission" />
+            <img src="{{ url_for('static', filename='MHRCLogoFinal.jpg') }}" alt="Nashville Human Relations Commission" />
           </a>
         </div>         
       </div>
