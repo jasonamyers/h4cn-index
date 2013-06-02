@@ -1,0 +1,108 @@
+/*---------- BODY ----------*/
+h1, h2, h3, h4, h5 {
+  font-family: Molengo;  
+}
+
+/*---------- NAVBAR ----------*/
+.navbar {
+  overflow: hidden;
+  font-size: 16px;
+  color: white;
+}
+
+.navbar-inverse .navbar-inner {
+  background-repeat: repeat;
+  background: #58699F;
+  border-color: #5DBCD2;
+  border-bottom-width: 5px;
+}
+
+/*.navbar-wrapper {
+  overflow:hidden;
+}
+*/
+
+#menu-main {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.nav-collapse .nav {
+  padding-top: 5px;
+}
+
+ul#menu-main > li > a {
+  color: white;
+  padding: 9px 15px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+
+ul#menu-main > li > a:hover {
+  background: orange;
+  padding: 9px 15px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+
+/*---------- HEADER ----------*/
+
+header {
+  padding-top: 20px;
+  padding-bottom: 80px;
+}
+
+h1 {
+  font-size: 50px;
+}
+
+/*---------- Diversity, Inclusion ----------*/
+
+#twowords h2 {
+  font-size: 70px;
+  text-align: center;
+}
+
+#twowords .span2 {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+#inclusion.span5 {
+  text-align: right;
+}
+
+a:hover, a:active {
+  color: #0099CC;
+  text-decoration: underline;
+}
+
+/*---------- FOOTER ----------*/
+
+.footerwraper {
+  background-image: blue, url("../img/wavegrid_@2X.png");  
+  opacity: 1;
+}
+
+footer {
+  text-align: center;
+}
+
+footer h3 {
+  font-weight: lighter;
+}
+
+footer img {
+  padding-top: 10px;
+  padding-bottom: 10px;
+} 
+
+footer hr {
+  color: black;
+} 
+
+@media screen and (max-width: 768px) {
+    body { padding-top: 0px; }
+}
