@@ -4,7 +4,7 @@ class Surveys(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     desc = db.Column(db.String(1000))
-    questions = db.relationship('Question', backref='question', lazy='dynamic')
+    questions = db.relationship('Question', backref='surveys', lazy='dynamic')
 
     def __init__(self, name, desc):
         self.name = name
