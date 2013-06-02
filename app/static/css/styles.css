@@ -51,23 +51,48 @@ ul#menu-main > li > a:hover {
 
 header {
   padding-top: 20px;
-  padding-bottom: 80px;
+  padding-bottom: 20px;
 }
 
 h1 {
-  font-size: 50px;
+font-family: 'Raleway', sans-serif;
+  font-size: 80px;
+  text-transform: capitalize;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: 400;
 }
+
+h3 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+}
+
+h2 {
+  color: white;
+  background-color: black;
+  padding: 5px;
+  font-weight: lighter;
+}
+
 
 /*---------- Diversity, Inclusion ----------*/
 
-#twowords h2 {
-  font-size: 70px;
+#twowords a h2 {
+  font-size: 45px;
   text-align: center;
+  background-color: #5DBCD2;
+  opacity: 1;
+  color: black;
 }
 
 #twowords .span2 {
   padding-top: 20px;
   padding-bottom: 20px;
+  text-align: center;
+  background-color: #5DBCD2;
+  opacity: 1;
 }
 
 #inclusion.span5 {
@@ -78,6 +103,25 @@ a:hover, a:active {
   color: #0099CC;
   text-decoration: underline;
 }
+
+#twowordswrapper {
+  background-color: #5DBCD2;
+  opacity: 1;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/*---------- Accordian ----------*/
+
+#accordion2 .accordion-heading {
+  background: #5DBCD2;
+}
+
+#accordion2 h3 {
+  color: black;
+  font-size: 30px;
+}
+
 
 /*---------- FOOTER ----------*/
 
@@ -92,6 +136,7 @@ footer {
 
 footer h3 {
   font-weight: lighter;
+  font-size: 20px;
 }
 
 footer img {
