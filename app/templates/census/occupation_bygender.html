@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="container" style="width:100%; height:400px;"></div>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <th>Gender</th>
+        <th>Position</th>
+        <th>Count</th>
+    </thead>
+    <tbody>
+        {% for key, value in values %}
+        {{ value }}
+        {% for job in value %}
+        {{ job }}
+        <tr>
+            {% if loop.first %}
+            <td rowspan="{{ value|length }}"><div class="text-right">{{ key }}</div></td>
+            {% endif %} 
+            <td><div class="text-right">{{ job }}</div></td>
+            <td><div class="text-right">{{ value[job]|comma_format }}</div></td>
+        </tr>
+        {% endfor %}
+        {% if value.get('FEMALE') %}
+        <tr>
+            {% if not value.get('MALE') %}
+            <td><div class="text-right">{{ key }}</div></td>
+            {% endif %}
+            <td><div class="text-right">Female</div></td>
+            <td><div class="text-right">${{ value['FEMALE']|comma_format }}</div></td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+{% endblock %}
+{% block extracss %}
+{% endblock %}
+{% block extrajs %}
+<script type="text/javascript">
+$(function () { 
+    $('#container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Median Income in Davidson County'
+        },
+        xAxis: {
+            categories: [
+            {% for key,value in values %}
+            '{{ key }}',
+            {% endfor %}
+            ]
+        },
+        yAxis: {
+            title: {
+                text: 'Dollars'
+            },
+        },
+        series: [
+            {
+                name: 'MALE',
+                      data: [
+                            {% for key, value in values %}
+                            {{ value['MALE'] }},
+                            {% endfor %}
+                      ]
+            },
+            {
+                name: 'FEMALE',
+                      data: [
+                            {% for key, value in values %}
+                            {{ value['FEMALE'] }},
+                            {% endfor %}
+                      ]
+            },
+        ]
+    });
+});
+</script>
+{% endblock %}
