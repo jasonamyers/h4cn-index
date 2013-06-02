@@ -1,19 +1,149 @@
-<html>
-    <head>
-        <title>Metro Census and Survey</title>
-        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
-    {% block extracss %}
-    {% endblock %}
-    </head>
-    <body>
+<!DOCTYPE html>
+<html lang="en">
+
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+
+<head>
+
+  <meta charset="utf-8">
+  <title> Nashville Human Relations Commission | Diversity and Inclusivity in Nashville </title>
+  <meta name="description" content=" ">
+  <meta name="robot" CONTENT="index,follow">
+  <meta name="author" content=" ">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS Files -->
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+  <link href="{{ url_for('static', filename='css/navbarfix.css') }}" rel="stylesheet" media="screen">
+  <link href="{{ url_for('static', filename='css/bootstrap-responsive.css') }}" rel="stylesheet" media="screen">
+  <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet" media="screen">  
+
+  <!-- Google Web Fonts -->
+  <link href='http://fonts.googleapis.com/css?family=Molengo' rel='stylesheet' type='text/css'>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+  
+  <!-- JavaScript Files At Bottom For Faster Load -->
+
+  <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  {% block extracss %}
+  {% endblock %}
+
+</head>
+
+<body>
+
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an <strong>outdated</strong> brow-fluidser. Please <a href="http://brow-fluidsehappy.com/">upgrade your brow-fluidser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+<![endif]-->
+
+<!--=============== NAVBAR ===============-->
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="pull-right nav-collapse collapse">
+            <ul id="menu-main" class="nav">
+              <!--<li><a title="header" href="#top">Top</a></li> -->
+              <li><a title="home" href="#home">Home</a></li>
+              <li><a title="about" href="#about">About</a></li>
+              <li><a title="census" href="#census">Census</a></li>
+              <li><a title="survey" href="#survey">Survey</a></li>
+            </ul>
+          </div>
+        </div>
+      </div><!-- /.navbar-inner -->
+    </div><!-- /.navbar navbar-inverse navbar-fixed-top -->
+    
+    <div id="top">
+    </div>
+
     {% block content %}
     {% endblock %}
+
+<!--=============== FOOTER ===============-->
+
+<br />
+<br />
+<br />
+
+    <div class="footerwraper">
+    <div class="container">
+    <footer>
+
+<hr />    
+
+      <div class="row">
+        <div class="span12">
+          <h3>
+            Brought to you by:
+          </h3>  
+        </div> 
+      </div>       
+          
+      <div class="row">
+        <div class="span4">
+          <a href="http://hackforchange.org" target="_blank">
+            <img src="img/NationalDayOfCivicHacking.png" width="300" height="94" alt="National Day of Civic Hacking" />
+          </a>
+        </div> 
+        <div class="span4"> 
+          <a href="http://hack4changenash.org" target="_blank">
+            <img src="img/nhfc_logo.png" width="300" height="94" alt="Nashville Human Relations Commission" />
+          </a>
+        </div> 
+        <div class="span4"> 
+          <a href="http://www.nashville.gov" target="_blank">
+            <img src="img/logo-home-print.png" width="300" height="94" alt="Nashville Human Relations Commission" />
+          </a>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="span12"> 
+          <a href="http://www.nashville.gov/Human-Relations-Commission.aspx" target="_blank">
+            <img src="img/MHRCLogFinal.jpg" width="300" height="94" alt="Nashville Human Relations Commission" />
+          </a>
+        </div>         
+      </div>
+
+<hr />
+    
+      <div class="row">
+        <div class="span12">
+          <p>
+            © 2013 Nashville Human Relations Commission. All rights reserved.
+          </p>
+        </div>
+      </div>
+
+    </footer>
+    </div><!-- ./container -->
+    <div><!--#footerwraper -->
+
+<!--=============== Google Analytics ===============-->   
+  
+<!--=============== END ===============--> 
+
+<!-- JavaScript Files At Bottom For Faster Load -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     {% block extrajs %}
     {% endblock %}
-    </body>
+
+</body>
 </html>
