@@ -1,3 +1,4 @@
+from __future__ import division
 from flask import (Blueprint, request, render_template, flash, g, session,
     redirect, url_for, json, jsonify, current_app)
 from flask.ext.login import (login_user, logout_user, current_user)
@@ -69,13 +70,14 @@ def census_test():
 @mod.route('/poverty_by_district/<district_name>', methods=['GET', ])
 def census_proverty_by_district(district_name):
     values = {}
+    factors = ['ALL', 'POVERTY']
     s = select(
         [
             g.t.c.race,
             g.t.c.factor,
             func.sum(g.t.c.value).label('summed')
-        ], g.t.c.race != 'ALL').where(
-            g.t.c.factor in ['ALL', 'POVERTY'] and
+        ], g.t.c.factor.in_(factors)).where(
+            g.t.c.race != 'ALL' and
             g.t.c.district == district_name and
             g.t.c.summed != 0).group_by(
                 g.t.c.race,
@@ -83,12 +85,24 @@ def census_proverty_by_district(district_name):
                     g.t.c.race,
                     g.t.c.factor)
     results = g.conn.execute(s).fetchall()
-    print results
     for value in results:
         race = getattr(value, 'race')
         if not values.get(race):
             values[race] = {}
         factor = getattr(value, 'factor')
         values[race][factor] = value.summed
+
+    bad_keys = []
+    for key in values:
+        if values[key]['ALL']:
+            values[key]['percent'] = round((values[key]['POVERTY'] / values[key]['ALL']) * 100, 0)
+            values[key]['percent_pov_pop'] = round((values[key]['POVERTY'] / values['ALL']['POVERTY']) * 100, 0)
+            values[key]['percent_pop'] = round((values[key]['ALL'] / values['ALL']['ALL']) * 100, 0)
+        if not values[key]['POVERTY'] or not values[key].get('percent'):
+            bad_keys.append(key)
+
+    if bad_keys:
+        for key in bad_keys:
+            values.pop(key, None)
 
     return render_template('census/test.html', values=values, district=district_name)
