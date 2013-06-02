@@ -28,6 +28,7 @@ def before_request():
 def census():
     income_districts = []
     poverty_districts = []
+    medianincome_districts = []
     s = select(
         [
             g.t.c.district,
@@ -44,8 +45,16 @@ def census():
     districts = g.conn.execute(s).fetchall()
     for district in districts:
         poverty_districts.append(district)
+    s = select(
+        [
+            g.t.c.district,
+        ], g.t.c.type == 'MEDIANINCOME').distinct().order_by(
+                g.t.c.district)
+    districts = g.conn.execute(s).fetchall()
+    for district in districts:
+        medianincome_districts.append(district)
     
-    return render_template('census/index.html', income_districts=income_districts, poverty_districts=poverty_districts)
+    return render_template('census/index.html', income_districts=income_districts, poverty_districts=poverty_districts, medianincome_districts=medianincome_districts)
 
 
 @mod.route('/test', methods=['GET', ])
@@ -335,3 +344,80 @@ def census_income_json():
     }
 
     return jsonify(return_val)
+
+
+@mod.route('/medianincome', methods=['GET', ])
+def census_medianincome():
+    values = {}
+    s = select(
+        [
+            g.t.c.race,
+            g.t.c.factor,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(
+            and_(
+                g.t.c.type == 'MEDIANINCOME',
+                g.t.c.value != 0,
+                g.t.c.race != 'WHITE',
+            )
+        ).group_by(
+            g.t.c.race,
+            g.t.c.factor).order_by(
+                g.t.c.race,
+                g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    total_value = 0
+    for value in results:
+        median_income = round(total_value + getattr(value, 'summed')/len(results),2)
+        race = getattr(value, 'race')
+        if not values.get(race):
+            values[race] = {}
+        factor = getattr(value, 'factor')
+        if not values[race].get(factor):
+            values[race][factor] = {}
+        values[race][factor] = median_income
+
+    values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+    print values
+
+    return render_template('census/medianincome.html', values=values)
+
+
+@mod.route('/medianincome_by_district/<district_name>', methods=['GET', ])
+def census_medianincome_by_district(district_name):
+    values = {}
+    s = select(
+        [
+            g.t.c.race,
+            g.t.c.factor,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(
+            and_(
+                g.t.c.type == 'MEDIANINCOME',
+                g.t.c.district == district_name,
+                g.t.c.value != 0,
+                g.t.c.race != 'WHITE',
+            )
+        ).group_by(
+            g.t.c.race,
+            g.t.c.factor).order_by(
+                g.t.c.race,
+                g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    total_value = 0
+    for value in results:
+        median_income = round(total_value + getattr(value, 'summed')/len(results),2)
+        race = getattr(value, 'race')
+        if not values.get(race):
+            values[race] = {}
+        factor = getattr(value, 'factor')
+        if not values[race].get(factor):
+            values[race][factor] = {}
+        values[race][factor] = median_income
+
+    values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+    print values
+
+    return render_template('census/medianincome_by_district.html', values=values, district=district_name)
