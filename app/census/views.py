@@ -69,6 +69,54 @@ def census_test():
     return render_template('census/test.html', values=values)
 
 
+@mod.route('/poverty_json', methods=['GET', ])
+def census_poverty_json():
+    values = {}
+    s = select(
+        [
+            g.t.c.race,
+            g.t.c.factor,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(and_(
+            g.t.c.type == 'POVERTY',
+            g.t.c.value != 0)).group_by(
+                g.t.c.race,
+                g.t.c.factor).order_by(
+                    g.t.c.race,
+                    g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    for value in results:
+        race = getattr(value, 'race')
+        if not values.get(race):
+            values[race] = {}
+        factor = getattr(value, 'factor')
+        values[race][factor] = value.summed
+
+    bad_keys = []
+    for key in values:
+        if values[key].get('POVERTY'):
+            if values[key].get('ALL'):
+                values[key]['percent'] = round((values[key]['POVERTY'] / values[key]['ALL']) * 100, 2)
+                values[key]['percent_pov_pop'] = round((values[key]['POVERTY'] / values['ALL']['POVERTY']) * 100, 2)
+                values[key]['percent_pop'] = round((values[key]['ALL'] / values['ALL']['ALL']) * 100, 2)
+        else:
+            if not values[key].get('percent'):
+                bad_keys.append(key)
+
+    if bad_keys:
+        for key in bad_keys:
+            values.pop(key, None)
+            values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+
+    return_val = {
+        'values': values,
+        'graph_name': 'Poverty % by Race in All Districts',
+        'url': url_for('census.census_poverty_json', _external=True)
+    }
+    return jsonify(return_val)
+
+
 @mod.route('/poverty', methods=['GET', ])
 def census_proverty():
     values = {}
@@ -228,3 +276,43 @@ def census_income():
     values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
 
     return render_template('census/income.html', values=values)
+
+@mod.route('/income_json', methods=['GET', ])
+def census_income_json():
+    values = {}
+    s = select(
+        [
+            g.t.c.race,
+            g.t.c.factor,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(
+            and_(
+                g.t.c.type == 'INCOME',
+                g.t.c.value != 0,
+                g.t.c.race == 'ALL',
+            )
+        ).group_by(
+            g.t.c.race,
+            g.t.c.factor).order_by(
+                g.t.c.race,
+                g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    total_value = 0
+    for value in results:
+        total_value = total_value + getattr(value, 'summed')
+        factor = getattr(value, 'factor')
+        values[factor] = {'count': value.summed}
+
+    for key in values:
+        print
+        if total_value > 0:
+                values[key]['percent'] = round((values[key]['count'] / values['ALL']['count']) * 100, 2)
+    values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+    return_val = {
+        'values': values,
+        'graph_name': 'Poverty % by Race in All Districts',
+        'url': url_for('census.census_income_json', _external=True)
+    }
+
+    return jsonify(return_val)
