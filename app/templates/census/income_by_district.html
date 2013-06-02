@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="container" style="width:100%; height:400px;"></div>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <th>Income Range</th>
+        <th>Count</th>
+        <th>% Total</th>
+    </thead>
+    <tbody>
+        {% for key, value in values %}
+        <tr>
+            <td><div class="text-right">{{ key }}</div></td>
+            <td><div class="text-right">{{ value['count']|comma_format }}</div></td>
+            <td><div class="text-right">{{ value['percent'] }}%</div></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+    </tfoot>
+</table>
+{% endblock %}
+{% block extracss %}
+{% endblock %}
+{% block extrajs %}
+<script type="text/javascript">
+$(function () { 
+    $('#container').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Income Bracket in {{ district }}'
+        },
+        xAxis: {
+            categories: [
+            {% for key,value in values %}
+            '{{ key }}',
+            {% endfor %}
+            ]
+        },
+        yAxis: {
+            title: {
+                text: 'Percentage'
+            },
+        },
+        series: [
+            {
+                name: '% total for bracket',
+                      data: [
+                            {% for key, value in values %}
+                            {{ value['percent'] }},
+                            {% endfor %}
+                      ]
+            },
+        ]
+    });
+});
+</script>
+{% endblock %}

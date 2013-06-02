@@ -1,11 +1,13 @@
 from __future__ import division
+import operator
 from flask import (Blueprint, request, render_template, flash, g, session,
     redirect, url_for, json, jsonify, current_app)
 from flask.ext.login import (login_user, logout_user, current_user)
 from flask.ext.principal import Identity, AnonymousIdentity, identity_changed
 
 from sqlalchemy import create_engine
-from sqlalchemy.sql import select, func
+from sqlalchemy.sql import select, func, and_
+from sqlalchemy.sql.expression import tuple_
 
 from app import db
 from config import SQLALCHEMY_DATABASE_URI
@@ -67,19 +69,17 @@ def census_test():
     return render_template('census/test.html', values=values)
 
 
-@mod.route('/poverty_by_district/<district_name>', methods=['GET', ])
-def census_proverty_by_district(district_name):
+@mod.route('/poverty', methods=['GET', ])
+def census_proverty():
     values = {}
-    factors = ['ALL', 'POVERTY']
     s = select(
         [
             g.t.c.race,
             g.t.c.factor,
             func.sum(g.t.c.value).label('summed')
-        ], g.t.c.factor.in_(factors)).where(
-            g.t.c.race != 'ALL' and
-            g.t.c.district == district_name and
-            g.t.c.summed != 0).group_by(
+        ], ).where(and_(
+            g.t.c.type == 'POVERTY',
+            g.t.c.value != 0)).group_by(
                 g.t.c.race,
                 g.t.c.factor).order_by(
                     g.t.c.race,
@@ -94,15 +94,137 @@ def census_proverty_by_district(district_name):
 
     bad_keys = []
     for key in values:
-        if values[key]['ALL']:
-            values[key]['percent'] = round((values[key]['POVERTY'] / values[key]['ALL']) * 100, 0)
-            values[key]['percent_pov_pop'] = round((values[key]['POVERTY'] / values['ALL']['POVERTY']) * 100, 0)
-            values[key]['percent_pop'] = round((values[key]['ALL'] / values['ALL']['ALL']) * 100, 0)
-        if not values[key]['POVERTY'] or not values[key].get('percent'):
-            bad_keys.append(key)
+        if values[key].get('POVERTY'):
+            if values[key].get('ALL'):
+                values[key]['percent'] = round((values[key]['POVERTY'] / values[key]['ALL']) * 100, 2)
+                values[key]['percent_pov_pop'] = round((values[key]['POVERTY'] / values['ALL']['POVERTY']) * 100, 2)
+                values[key]['percent_pop'] = round((values[key]['ALL'] / values['ALL']['ALL']) * 100, 2)
+        else:
+            if not values[key].get('percent'):
+                bad_keys.append(key)
 
     if bad_keys:
         for key in bad_keys:
             values.pop(key, None)
+            values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
 
-    return render_template('census/test.html', values=values, district=district_name)
+    return render_template('census/poverty.html', values=values)
+
+
+@mod.route('/poverty_by_district/<district_name>', methods=['GET', ])
+def census_proverty_by_district(district_name):
+    values = {}
+    s = select(
+        [
+            g.t.c.race,
+            g.t.c.factor,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(and_(
+            g.t.c.type == 'POVERTY',
+            g.t.c.district == district_name,
+            g.t.c.value != 0)).group_by(
+                g.t.c.race,
+                g.t.c.factor).order_by(
+                    g.t.c.race,
+                    g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    for value in results:
+        race = getattr(value, 'race')
+        if not values.get(race):
+            values[race] = {}
+        factor = getattr(value, 'factor')
+        values[race][factor] = value.summed
+
+    bad_keys = []
+    for key in values:
+        if values[key].get('POVERTY'):
+            if values[key].get('ALL'):
+                values[key]['percent'] = round((values[key]['POVERTY'] / values[key]['ALL']) * 100, 2)
+                values[key]['percent_pov_pop'] = round((values[key]['POVERTY'] / values['ALL']['POVERTY']) * 100, 2)
+                values[key]['percent_pop'] = round((values[key]['ALL'] / values['ALL']['ALL']) * 100, 2)
+        else:
+            if not values[key].get('percent'):
+                bad_keys.append(key)
+
+    if bad_keys:
+        for key in bad_keys:
+            values.pop(key, None)
+            values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+    print values
+
+    return render_template('census/poverty_by_district.html', values=values, district=district_name)
+
+
+@mod.route('/income_by_district/<district_name>', methods=['GET', ])
+def census_income_by_district(district_name):
+    values = {}
+    s = select(
+        [
+            g.t.c.race,
+            g.t.c.factor,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(
+            and_(
+                g.t.c.type == 'INCOME',
+                g.t.c.district == district_name,
+                g.t.c.value != 0,
+                g.t.c.race == 'ALL',
+            )
+        ).group_by(
+            g.t.c.race,
+            g.t.c.factor).order_by(
+                g.t.c.race,
+                g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    total_value = 0
+    for value in results:
+        total_value = total_value + getattr(value, 'summed')
+        factor = getattr(value, 'factor')
+        values[factor] = {'count': value.summed}
+
+    for key in values:
+        print
+        if total_value > 0:
+                values[key]['percent'] = round((values[key]['count'] / values['ALL']['count']) * 100, 2)
+    values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+
+    return render_template('census/income_by_district.html', values=values, district=district_name)
+
+
+@mod.route('/income', methods=['GET', ])
+def census_income():
+    values = {}
+    s = select(
+        [
+            g.t.c.race,
+            g.t.c.factor,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(
+            and_(
+                g.t.c.type == 'INCOME',
+                g.t.c.value != 0,
+                g.t.c.race == 'ALL',
+            )
+        ).group_by(
+            g.t.c.race,
+            g.t.c.factor).order_by(
+                g.t.c.race,
+                g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    total_value = 0
+    for value in results:
+        total_value = total_value + getattr(value, 'summed')
+        factor = getattr(value, 'factor')
+        values[factor] = {'count': value.summed}
+
+    for key in values:
+        print
+        if total_value > 0:
+                values[key]['percent'] = round((values[key]['count'] / values['ALL']['count']) * 100, 2)
+    values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+
+    return render_template('census/income.html', values=values)

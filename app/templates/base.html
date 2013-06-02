@@ -2,6 +2,8 @@
     <head>
         <title>Metro Census and Survey</title>
         <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
     {% block extracss %}
     {% endblock %}
     </head>
@@ -10,6 +12,7 @@
     {% endblock %}
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     {% block extrajs %}
     {% endblock %}
     </body>

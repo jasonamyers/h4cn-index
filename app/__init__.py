@@ -17,6 +17,13 @@ admin_permission = Permission(RoleNeed('admin'))
 from app.users.models import Users
 
 
+def comma_format(value):
+        return "{:,.0f}".format(value)
+
+
+app.jinja_env.filters['comma_format'] = comma_format
+
+
 @login_manager.user_loader
 def load_user(userid):
     return Users.by_id(userid)
