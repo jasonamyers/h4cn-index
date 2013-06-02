@@ -34,6 +34,8 @@ def handle_splash():
 from app.users.views import mod as usersModule
 app.register_blueprint(usersModule)
 
+from app.surveys.views import mod as surveysModule
+app.register_blueprint(surveysModule)
 
 @identity_loaded.connect_via(app)
 def on_identity_loaded(sender, identity):
