@@ -58,10 +58,9 @@
           <div class="pull-right nav-collapse collapse">
             <ul id="menu-main" class="nav">
               <!--<li><a title="header" href="#top">Top</a></li> -->
-              <li><a title="home" href="#home">Home</a></li>
-              <li><a title="about" href="#about">About</a></li>
-              <li><a title="census" href="#census">Census</a></li>
-              <li><a title="survey" href="#survey">Survey</a></li>
+              <li><a title="home" href="{{ url_for('handle_splash') }}">Home</a></li>
+              <li><a title="census" href="{{ url_for('census.census') }}">Diversity</a></li>
+              <li><a title="survey" href="">Inclusion</a></li>
             </ul>
           </div>
         </div>
@@ -77,14 +76,9 @@
 <!--=============== FOOTER ===============-->
 
 <br />
-<br />
-<br />
-
     <div class="footerwraper">
     <div class="container">
-    <footer>
-
-<hr />    
+    <footer>   
 
       <div class="row">
         <div class="span12">
@@ -99,13 +93,13 @@
         </div>      
         <div class="span4" id="nh4c"> 
           <a href="http://hackforchange.org" target="_blank">
-            <img src="{{ url_for('static', filename='img/NationalDayOfCivicHacking.jpg') }}" alt="National Day of Civic Hacking" />
+              <img src="{{ url_for('static', filename='img/NationalDayOfCivicHacking.jpg')}}" alt="National Day of Civic Hacking" />
           </a>
         </div>          
         <div class="span4"> 
         <div id="h4cn">
           <a href="http://hack4changenash.org" target="_blank">
-            <img src="{{ url_for('static', filename='img/NashvilleHackForChange.jpg') }}" alt="Nashville Hack For Change" />
+              <img src="{{ url_for('static', filename='img/NashvilleHackForChange.jpg')}}" alt="Nashville Hack For Change" />
           </a>
         </div>
         </div>
@@ -123,7 +117,7 @@
       <div class="row">
         <div class="span12" id="MHRClogo"> 
           <a href="http://www.nashville.gov/Human-Relations-Commission.aspx" target="_blank">
-            <img src="{{ url_for('static', filename='img/MHRCLogoFinal.jpg') }}" alt="Nashville Human Relations Commission" />
+              <img src="{{ url_for('static', filename='img/MHRCLogoFinal.jpg' )}}" width="300" height="94" alt="Nashville Human Relations Commission" />
           </a>
         </div>         
       </div>
@@ -147,11 +141,13 @@
 <!--=============== END ===============--> 
 
 <!-- JavaScript Files At Bottom For Faster Load -->
+
+<!-- JavaScript Files At Bottom For Faster Load -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     {% block extrajs %}
-    {% endblock %}
+    {% endblock %} 
 
 </body>
 </html>

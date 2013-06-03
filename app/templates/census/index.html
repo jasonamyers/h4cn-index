@@ -1,2 +1,170 @@
-{{ income_districts}}
-{{ poverty_districts }}
+{% extends 'base.html' %}
+{% block content %}
+<!--=============== HEADER ===============-->
+    
+    <div class="container">
+    <header>
+      <div class="row">
+        <div class="span7">
+          <h1>Diversity</h1>
+
+<br />
+          <strong>
+            <h2>
+              Nashville: 
+<br />
+              Growing Diversity and Inclusivity
+            </h2>
+          </strong>
+            <p>
+              In his 2013 State of the City Address, Mayor Karl Dean, said this: “Successful cities are cities with a high quality of life for people at all points on the economic spectrum. Successful cities are cities that offer opportunity to not just the well-educated, but everyone with the desire to have a better life.” 
+<br />
+<br />
+              We know that Nashville and Davidson County is racially, ethnically, and culturally—and growing more so each year—but what demographic statistics don’t tell us is whether our diversity also correlates with an experience of inclusion among the many cultural groups that call Nashville home.  
+<br/> 
+<br/>
+        </div>
+        <div class="span1">
+        </div>
+        <div class="span4">
+          <a href="http://www.nashville.gov/Human-Relations-Commission.aspx" target="_blank">
+              <img src="{{ url_for('static', filename='img/MHRCLogoFinal.jpg') }}" alt="Nashville Human Relations Commission" />
+          </a>
+        </div>
+      </div><!-- /.row --> 
+    </header>
+    </div><!-- /.container -->  
+
+    <div class="container">
+      <div class="row">
+
+        <div class="span12">
+          <h2>Data Overview</h2>
+            <p>
+              Lorem ipsum dolor sit amet, commodo regione tibique ius an. Laudem fabellas sea te, per etiam facete persequeris eu. Id pri minim equidem philosophia. Solum inimicus disputando et sed, his iuvaret euripidis te.
+            
+              Lorem ipsum dolor sit amet, commodo regione tibique ius an. Laudem fabellas sea te, per etiam facete persequeris eu. Id pri minim equidem philosophia. Solum inimicus disputando et sed, his iuvaret euripidis te.
+
+              Lorem ipsum dolor sit amet, commodo regione tibique ius an. Laudem fabellas sea te, per etiam facete persequeris eu. Id pri minim equidem philosophia. Solum inimicus disputando et sed, his iuvaret euripidis te.
+            </p>
+        </div>
+
+      </div><!-- /.row --> 
+    </div><!-- /.container --> 
+<!--=============== Data Overview ===============-->    
+
+
+<!--=============== ACCORDIAN, DATA ===============-->
+
+<br />
+
+    <div class="container">
+      <div class="row">
+
+        <div class="span1">
+        </div>
+
+        <div class="span10">
+          <div class="accordion" id="accordion2">
+
+            <!--=============== Poverty ===============-->            
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+                  <h3>
+                    Poverty
+                  </h3>
+                </a>
+              </div>
+                <div id="collapseOne" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p>
+                      We know that Nashville and Davidson County is racially, ethnically, and culturally—and growing more so each year—but what demographic statistics don’t tell us is whether our diversity also correlates with an experience of inclusion among the many cultural groups that call Nashville home. 
+                    </p>
+                    <ul>
+                        <li><a href="{{url_for('census.census_proverty')}}">County Wide</a>
+                        {% for report in income_districts%}
+                        <li><a href="{{url_for('census.census_proverty_by_district', district_name=report[0]) }}">{{report[0]}}</a>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+            <!--=============== Household Income ===============-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+                  <h3>
+                    Household Income
+                  </h3>
+                </a>
+              </div>
+                <div id="collapseTwo" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p>
+                      We know that Nashville and Davidson County is racially, ethnically, and culturally—and growing more so each year—but what demographic statistics don’t tell us is whether our diversity also correlates with an experience of inclusion among the many cultural groups that call Nashville home. 
+                    </p>
+                    <ul>
+                        <li><a href="{{url_for('census.census_income')}}">County Wide</a>
+                        {% for report in income_districts%}
+                        <li><a href="{{url_for('census.census_income_by_district', district_name=report[0]) }}">{{report[0]}}</a>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+            </div>
+            <!--=============== Median Income ===============-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+                  <h3>
+                    Median Income
+                  </h3>
+                </a>
+              </div>
+                <div id="collapseThree" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p>
+                    </p>
+                    <ul>
+                        <li><a href="{{url_for('census.census_medianincome')}}">County Wide</a>
+                        {% for report in income_districts%}
+                        <li><a href="{{url_for('census.census_medianincome_by_district', district_name=report[0]) }}">{{report[0]}}</a>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+            </div>
+            <!--=============== Occupational Counts ===============-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFour">
+                  <h3>
+                    Occupational Counts
+                  </h3>
+                </a>
+              </div>
+                <div id="collapseFour" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p>
+                    </p>
+                    <ul>
+                        <li><a href="{{url_for('census.census_occupation_bygender')}}">County Wide</a>
+                        {% for report in income_districts%}
+                        <li><a href="{{url_for('census.census_occupation_bygender_by_district', district_name=report[0]) }}">{{report[0]}}</a>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+            </div>
+
+          </div><!-- /#accordion2 -->   
+        </div><!-- /.span10 --> 
+
+        <div class="span1">
+        </div>
+
+      </div><!-- /.row --> 
+    </div><!-- /.container --> 
+{% endblock %}

@@ -9,9 +9,7 @@
     </thead>
     <tbody>
         {% for key, value in values %}
-        {{ value }}
         {% for job in value %}
-        {{ job }}
         <tr>
             {% if loop.first %}
             <td rowspan="{{ value|length }}"><div class="text-right">{{ key }}</div></td>
@@ -20,15 +18,6 @@
             <td><div class="text-right">{{ value[job]|comma_format }}</div></td>
         </tr>
         {% endfor %}
-        {% if value.get('FEMALE') %}
-        <tr>
-            {% if not value.get('MALE') %}
-            <td><div class="text-right">{{ key }}</div></td>
-            {% endif %}
-            <td><div class="text-right">Female</div></td>
-            <td><div class="text-right">${{ value['FEMALE']|comma_format }}</div></td>
-        </tr>
-        {% endif %}
         {% endfor %}
     </tbody>
     <tfoot>
@@ -56,7 +45,7 @@ $(function () {
         },
         yAxis: {
             title: {
-                text: 'Dollars'
+                text: 'Count'
             },
         },
         series: [

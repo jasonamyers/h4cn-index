@@ -424,12 +424,12 @@ def census_medianincome_by_district(district_name):
 
 
 @mod.route('/occupation_bygender', methods=['GET', ])
-def census_occupation():
+def census_occupation_bygender():
     values = {}
     s = select(
         [
-            g.t.c.sex,
             g.t.c.factor,
+            g.t.c.sex,
             func.sum(g.t.c.value).label('summed')
         ], ).where(
             and_(
@@ -438,19 +438,20 @@ def census_occupation():
                 g.t.c.race != 'WHITE',
             )
         ).group_by(
-            g.t.c.sex,
-            g.t.c.factor).order_by(
+            g.t.c.factor,
+            g.t.c.sex
+            ).order_by(
                 g.t.c.sex,
                 g.t.c.factor)
     results = g.conn.execute(s).fetchall()
     for value in results:
-        sex = getattr(value, 'sex')
-        if not values.get(sex):
-            values[sex] = {}
         factor = getattr(value, 'factor')
-        if not values[sex].get(factor):
-            values[sex][factor] = {}
-        values[sex][factor] = getattr(value, 'summed')
+        if not values.get(factor):
+            values[factor] = {}
+        sex = getattr(value, 'sex')
+        if not values[factor].get(sex):
+            values[factor][sex] = {}
+        values[factor][sex] = getattr(value, 'summed')
 
     values.pop('ALL', None)
     values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
@@ -459,40 +460,39 @@ def census_occupation():
     return render_template('census/occupation_bygender.html', values=values)
 
 
-@mod.route('/occupation_bygender/<district_name>', methods=['GET', ])
+@mod.route('/occupation_bygender_bydistrict/<district_name>', methods=['GET', ])
 def census_occupation_bygender_by_district(district_name):
     values = {}
     s = select(
         [
-            g.t.c.race,
             g.t.c.factor,
+            g.t.c.sex,
             func.sum(g.t.c.value).label('summed')
         ], ).where(
             and_(
-                g.t.c.type == 'MEDIANINCOME',
+                g.t.c.type == 'OCC',
                 g.t.c.district == district_name,
                 g.t.c.value != 0,
                 g.t.c.race != 'WHITE',
             )
         ).group_by(
-            g.t.c.race,
-            g.t.c.factor).order_by(
-                g.t.c.race,
+            g.t.c.factor,
+            g.t.c.sex
+            ).order_by(
+                g.t.c.sex,
                 g.t.c.factor)
     results = g.conn.execute(s).fetchall()
-    total_value = 0
     for value in results:
-        median_income = round(total_value + getattr(value, 'summed')/len(results),2)
-        race = getattr(value, 'race')
-        if not values.get(race):
-            values[race] = {}
         factor = getattr(value, 'factor')
-        if not values[race].get(factor):
-            values[race][factor] = {}
-        values[race][factor] = median_income
+        if not values.get(factor):
+            values[factor] = {}
+        sex = getattr(value, 'sex')
+        if not values[factor].get(sex):
+            values[factor][sex] = {}
+        values[factor][sex] = getattr(value, 'summed')
 
     values.pop('ALL', None)
     values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
     print values
 
-    return render_template('census/medianincome_by_district.html', values=values, district=district_name)
+    return render_template('census/occupation_bygender.html', values=values)

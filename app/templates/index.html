@@ -1,22 +1,48 @@
 {% extends 'base.html' %}
 {% block content %}
-
-<!--=============== HEADER ===============-->
-    
     <div class="container">
     <header>
       <div class="row">
         <div class="span7">
           <h1>Welcome</h1>
+          <h3>To The Nashville Inclusivity Index</h3>
+<br />
+          <strong>
+            <h2>
+              Nashville: 
+<br />
+              Growing Diversity and Inclusivity
+            </h2>
+          </strong>
             <p>
-              The mission of the Metro Human Relations Commission is to protect and promote the personal dignity, peace, safety, security, health, and general welfare of all people in Nashville and Davidson County.  The Commission’s work is organized around a theme of “One City, All People.” This motto guides all MHRC education, training, advocacy, and compliance services. It places you, your family, and your community at the center of our work for equality, equity, and inclusion, irrespective of race, color, sex, gender identity, age, religion, sexual orientation, ability, national origin, or other protected status.
+              In his 2013 State of the City Address, Mayor Karl Dean, said this: “Successful cities are cities with a high quality of life for people at all points on the economic spectrum. Successful cities are cities that offer opportunity to not just the well-educated, but everyone with the desire to have a better life.” 
+<br />
+<br />
+              We know that Nashville and Davidson County is racially, ethnically, and culturally—and growing more so each year—but what demographic statistics don’t tell us is whether our diversity also correlates with an experience of inclusion among the many cultural groups that call Nashville home. 
+<br/> 
+<br/> 
+              As long as mandated or voluntary measures treat cultural diversity as the “problem,” underlying systemic causes for conditions such as poverty, academic disparities, divergent employment outcomes, etc., are not raised or interrogated. The modes and “codes” that create in-groups and out-groups are not identified, explored, challenged, or dismantled. Since it is largely true that “we measure what we value, and what we measure gets done,” the Metro Human Relations Commission wants provide not only easy access to diversity measures, but to put a human face on these statistics by taking the process one step further. As long as mandated or voluntary measures treat cultural diversity as the “problem,” underlying systemic causes for conditions such as poverty, academic disparities, divergent employment outcomes, etc., are not raised or interrogated. The modes and “codes” that create in-groups and out-groups are not identified, explored, challenged, or dismantled. Since it is largely true that “we measure what we value, and what we measure gets done,” the Metro Human Relations Commission wants provide not only easy access to diversity measures, but to put a human face on these statistics by taking the process one step further. 
+<br/> 
+<br/>
+          <strong>
+            <h2>
+              The MHRC Solution: 
+<br/>
+            Where Stats Meet Human Experience
+            </h2>
+          </strong>
+<br/>
+              Thus, the Metro Human Relation’s Commission’s Inclusivity Index. Rather than simply “celebrating” the diversity in our region, the MHRCII seeks to tell the story of where Nashville’s diverse cultural communities are on the journey to inclusion. In Phase One of this project, we offer a centralized system for gathering and reporting key census data, coupled with a self-reporting instrument Inclusivity Index that measures perceptions about social inclusion among Nashville’s diverse racial, ethnic, and cultural communities. This survey will be accessible online, and in print form; it will also be translated into varied languages to ensure the widest range of participation possible. 
+<br/> 
+<br/>
+              The MHRC Inclusivity Index will help generate the needed scorecard, shaped by the authentic voices of our neighbors, Mayor Dean described as being like us, not like us, lost, struggling, and for the young, the old, and everywhere in between who are filled with hope and possibility of Nashville indeed being, “One City for All People.”
             </p>
         </div>
         <div class="span1">
         </div>
         <div class="span4">
           <a href="http://www.nashville.gov/Human-Relations-Commission.aspx" target="_blank">
-            <img src="{{ url_for('static', filename='img/MHRCLogoFinal.jpg') }}" alt="Nashville Human Relations Commission" />
+              <img src="{{ url_for('static', filename='img/MHRCLogoFinal.jpg')}}" alt="Nashville Human Relations Commission" />
           </a>
         </div>
       </div><!-- /.row --> 
@@ -24,29 +50,36 @@
     </div><!-- /.container --> 
 
 <!--=============== Diversity, Inclusivity ===============-->
-      
-    <div class="container"> 
-      <div id="twowords">       
+  
+    <div id="twowordswrapper">
+    <div class="container">
+      <div id="twowords">    
       <div class="row">
         <div class="span5" id="diversity">
-          <h2>Diversity</h2>
+          <a href="{{ url_for('census.census') }}">
+            <h2>Diversity</h2>
+          </a>
             <br />
               <p>
-                The mission of the Metro Human Relations Commission is to protect and promote the personal dignity, peace, safety, security, health, and general welfare of all people in Nashville and Davidson County.  The Commission’s work is organized around a theme of “One City, All People.” This motto guides all MHRC education, training, advocacy, and compliance services. It places you, your family, and your community at the center of our work for equality, equity, and inclusion, irrespective of race, color, sex, gender identity, age, religion, sexual orientation, ability, national origin, or other protected status.
+                Diversity is the full range of human differences within overarching similarities.  Typically, the word diversity is used to describe quantifiable, observable differences, such as race, age, physical disabilities, skin color, etc.  Diversity is also used as short-hand for those “minority” statuses in U.S. culture that were historically marginalized, or disenfranchised, and that continue to be so in contemporary life and culture. 
               </p>
         </div>
         <div class="span2">
           <h2>&#124</h2>
         </div>          
         <div class="span5" id="inclusion">
-          <h2>Inclusion</h2>
+          <a href="">
+            <h2>Inclusion</h2>
+          </a>
             <br />
               <p>
-                The mission of the Metro Human Relations Commission is to protect and promote the personal dignity, peace, safety, security, health, and general welfare of all people in Nashville and Davidson County.  The Commission’s work is organized around a theme of “One City, All People.” This motto guides all MHRC education, training, advocacy, and compliance services. It places you, your family, and your community at the center of our work for equality, equity, and inclusion, irrespective of race, color, sex, gender identity, age, religion, sexual orientation, ability, national origin, or other protected status.
+                Inclusion as a qualitative standard refers to the felt sense of being accepted, safe, affirmed, empowered in an organization’s or community’s political, economic, and social processes.  Inclusive policies and practices are core ways of doing business (rather than “add ons”) that afford all residents equal voice in support of our country’s highest democratic ideals.  Inclusivity engenders belonging because access to power is manifest and a common purpose is forged and “owned” by all.  Inclusivity allows individuals and groups the opportunity to help define and fulfill their roles in a given context, a process that advances mutual understanding and success.
               </p>
         </div>
       </div><!-- /.row --> 
     </div><!-- /#twowords --> 
-    </div><!-- /.container -->
+    </div><!-- /.container --> 
+    </div><!-- /#twowordswrapper -->
+
 
 {% endblock %}
