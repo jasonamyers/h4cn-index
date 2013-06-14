@@ -1,0 +1,9 @@
+This is a ipython notebook ready to view at nbviewer. Open InclusitivityNotebook.html in this directory to see it.
+
+In response to the "Inclusitivity Index" concept presented in the "Hack for Change, Nashville" event, the work in this notebook flows from the following use case scenario:
+
+    * Survey forms are printed from the database for a specific survey, survey version, and location
+    * Citizens fill out surveys
+    * Survey responses are captured as text in a Survey Response Text File.
+    * The Survey Response Text File is processed to add responses to the database
+    * Charts and reports are produced
