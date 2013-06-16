@@ -158,6 +158,28 @@
                   </div>
                 </div>
             </div>
+            <!--=============== Occupational Counts ===============-->
+            <div class="accordion-group">
+              <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
+                  <h3>
+                    Educational Levels
+                  </h3>
+                </a>
+              </div>
+                <div id="collapseFive" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <p>
+                    </p>
+                    <ul>
+                        <li><a href="{{url_for('census.census_education_bygender')}}">County Wide</a>
+                        {% for report in income_districts%}
+                        <li><a href="{{url_for('census.census_education_bygender_by_district', district_name=report[0]) }}">{{report[0]}}</a>
+                        {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+            </div>
 
           </div><!-- /#accordion2 -->   
         </div><!-- /.span10 --> 

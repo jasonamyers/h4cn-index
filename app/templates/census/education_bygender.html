@@ -4,7 +4,7 @@
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <th>Gender</th>
-        <th>Position</th>
+        <th>EDU Level</th>
         <th>Count</th>
     </thead>
     <tbody>
@@ -34,7 +34,7 @@ $(function () {
             type: 'bar'
         },
         title: {
-            text: 'Occupations by Gender in {% if district %}{{ district }}{% else %}Davidson County{% endif %}'
+            text: 'Education in {% if district %}{{ district }}{% else %}Davidson County{% endif %}'
         },
         xAxis: {
             categories: [

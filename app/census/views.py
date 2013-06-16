@@ -80,15 +80,12 @@ def census_test():
     for result in results:
         type = getattr(result, 'type')
         if not values.get(type):
-            print "resetting type"
             values[type] = {}
         district = getattr(result, 'district')
         if not values[type].get(district):
-            print "district reset"
             values[type][district] = {}
         race = getattr(result, 'race')
         if not values[type][district].get(race):
-            print "race reset"
             if getattr(result, 'summed'):
                 values[type][district][race] = {}
         if getattr(result, 'summed'):
@@ -228,7 +225,6 @@ def census_proverty_by_district(district_name):
             values.pop(key, None)
             values.pop('ALL', None)
     values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
-    print values
 
     return render_template('census/poverty_by_district.html', values=values, district=district_name)
 
@@ -261,7 +257,6 @@ def census_income_by_district(district_name):
         values[factor] = {'count': value.summed}
 
     for key in values:
-        print
         if total_value > 0:
                 values[key]['percent'] = round((values[key]['count'] / values['ALL']['count']) * 100, 2)
     values.pop('ALL', None)
@@ -495,4 +490,76 @@ def census_occupation_bygender_by_district(district_name):
     values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
     print values
 
-    return render_template('census/occupation_bygender.html', values=values)
+    return render_template('census/occupation_bygender.html', values=values, district=district_name)
+
+@mod.route('/education_bygender', methods=['GET', ])
+def census_education_bygender():
+    values = {}
+    s = select(
+        [
+            g.t.c.factor,
+            g.t.c.sex,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(
+            and_(
+                g.t.c.type == 'EDU',
+                g.t.c.value != 0,
+                g.t.c.race != 'WHITE',
+            )
+        ).group_by(
+            g.t.c.factor,
+            g.t.c.sex
+            ).order_by(
+                g.t.c.sex,
+                g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    for value in results:
+        factor = getattr(value, 'factor')
+        if not values.get(factor):
+            values[factor] = {}
+        sex = getattr(value, 'sex')
+        if not values[factor].get(sex):
+            values[factor][sex] = {}
+        values[factor][sex] = getattr(value, 'summed')
+
+    values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+
+    return render_template('census/education_bygender.html', values=values)
+
+
+@mod.route('/education_bygender_bydistrict/<district_name>', methods=['GET', ])
+def census_education_bygender_by_district(district_name):
+    values = {}
+    s = select(
+        [
+            g.t.c.factor,
+            g.t.c.sex,
+            func.sum(g.t.c.value).label('summed')
+        ], ).where(
+            and_(
+                g.t.c.type == 'EDU',
+                g.t.c.district == district_name,
+                g.t.c.value != 0,
+                g.t.c.race != 'WHITE',
+            )
+        ).group_by(
+            g.t.c.factor,
+            g.t.c.sex
+            ).order_by(
+                g.t.c.sex,
+                g.t.c.factor)
+    results = g.conn.execute(s).fetchall()
+    for value in results:
+        factor = getattr(value, 'factor')
+        if not values.get(factor):
+            values[factor] = {}
+        sex = getattr(value, 'sex')
+        if not values[factor].get(sex):
+            values[factor][sex] = {}
+        values[factor][sex] = getattr(value, 'summed')
+
+    values.pop('ALL', None)
+    values = sorted(values.items(), key=operator.itemgetter(1), reverse=True)
+
+    return render_template('census/education_bygender.html', values=values, district=district_name)
