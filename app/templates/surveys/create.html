@@ -1,5 +1,6 @@
 <form method="POST" action="{{ url_for('surveys.surveys_create') }}">
     {{ form.name.label }} {{ form.name(size=100) }}<br>
     {{ form.desc.label }} {{ form.desc(size=100) }}<br>
+    {{ form.active.label }} {{ form.active }}<br>
     <input type="submit" value="Go">
 </form>

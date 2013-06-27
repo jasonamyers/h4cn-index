@@ -6,9 +6,12 @@ from app.surveys.forms import SurveyForm, QuestionForm
 
 mod = Blueprint('surveys', __name__, url_prefix='/surveys')
 
+
 @mod.route('/')
 def surveys():
-    return render_template('surveys/index.html')
+    surveys = Surveys.query.filter(Surveys.active == True).all()
+    return render_template('surveys/index.html', surveys=surveys)
+
 
 @mod.route('/create', methods=['GET', 'POST', ])
 def surveys_create():
@@ -16,10 +19,11 @@ def surveys_create():
     if request.method == 'GET':
         return render_template('surveys/create.html', form=form)
     elif request.method == 'POST':
-        survey = Surveys(form.name.data, form.desc.data)
+        survey = Surveys(form.name.data, form.desc.data, form.active.data)
         db.session.add(survey)
         db.session.commit()
         return redirect(url_for('surveys.surveys_show', id=survey.id))
+
 
 @mod.route('/<int:id>')
 def surveys_show(id):

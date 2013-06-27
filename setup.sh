@@ -2,7 +2,7 @@
 clear
 
 # source the virtual environment
-source venv/bin/activate
+# source venv/bin/activate
 
 # make sure any new requirements have been installed
 pip install -r requirements.txt
