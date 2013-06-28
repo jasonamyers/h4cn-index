@@ -29,3 +29,12 @@ def surveys_create():
 def surveys_show(id):
     survey = Surveys.query.get(id)
     return render_template('surveys/show.html', survey=survey)
+
+
+@mod.route('/<int:id>/questions/add/')
+def question_add(id):
+    if request.method == 'POST':
+        question = Questions(request.form['question_text'])
+        db.session.add(question)
+        db.session.commit()
+        return {'success': 'The question was added'}

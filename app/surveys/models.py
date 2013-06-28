@@ -17,8 +17,17 @@ class Surveys(db.Model):
 class Questions(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(1000))
-    questions_id = db.Column(db.Integer, db.ForeignKey('surveys.id'))
+    survey_id = db.Column(db.Integer, db.ForeignKey('surveys.id'))
+    answers = db.relationship('Answers', backref='question', lazy='dynamic')
 
-    def __init__(self, name, text):
-        self.name = name
+    def __init__(self, text):
+        self.text = text
+
+
+class Answers(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(1000))
+    question_id = db.Column(db.Integer, db.ForeignKey('questions.id'))
+
+    def __init__(self, text):
         self.text = text

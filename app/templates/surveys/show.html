@@ -2,6 +2,45 @@
 {% block content %}
     <div class="container">
         <h1>Survey: {{ survey.name }}</h1>
+        <div class="pull-right">
+            <a href="#" class="btn btn-warning">Add Question</a>
+        </div>
+        <div id="question-form">
+            <form method="POST">
+                <input type="text" name="question_text">
+                <input type="submit" value="Add">
+            </form>
+        </div>
         <p>{{ survey.desc }}</p>
+        {% for question in survey.questions %}
+        <div>
+            <div class="pull-right">
+                <a href="" class="btn btn-warning">Add Answer</a>
+            </div>
+            {{ question.text }}
+            <ul>
+            {% for answer in question.answer %}
+                <li>{{ answer.text }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+        <hr>
     </div><!-- /#twowordswrapper -->
+{% endblock %}
+{% block extrajs %}
+<script type="text/javascript">
+    $("#question-form").live("click", function() { 
+        $("#question-form").show();
+        console.log("test");
+        return false;
+    });
+</script>
+{% endblock %}
+{% block extracss %}
+<style>
+    #question-form {
+        display: none;
+    }
+</style>
 {% endblock %}
